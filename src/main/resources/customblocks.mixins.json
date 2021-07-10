@@ -4,10 +4,10 @@
   "package": "io.github.teddyxlandlee.mcmod.customblocks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-
+    "acc.BlockAccessor",
+    "acc.BlockSettingsAccessor"
   ],
   "client": [
-
   ],
   "injectors": {
     "defaultRequire": 1

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 //@FunctionalInterface
 public interface JsonDataAdapter {
-    void registry(JsonObject json);
+    void register(JsonObject json);
 
     /**
      * Returns {@code true} if {@code json} is valid to registry,

@@ -3,12 +3,12 @@ package io.github.teddyxlandlee.mcmod.customblocks;
 import com.google.gson.*;
 import io.github.teddyxlandlee.mcmod.customblocks.extension.CustomBlocksExtension;
 import io.github.teddyxlandlee.mcmod.customblocks.extension.DependencyImpl;
-import io.github.teddyxlandlee.mcmod.customblocks.registry.CustomRegistryHelper;
 import io.github.teddyxlandlee.mcmod.customblocks.registry.JsonDataAdapter;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.VersionParsingException;
 import net.fabricmc.loader.api.metadata.ModDependency;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +42,19 @@ public class BaseDataLoader {
     private static final int CURRENT_DATA_VERSION = 1;
 
     private List<CustomBlocksExtension> extensions;
+
+    private static @NotNull JsonDataAdapter fromJson(JsonObject root, String id)
+            throws IllegalArgumentException {
+        Identifier type = new Identifier(JsonHelper.getString(root, "type"));
+        @Nullable JsonDataAdapter adapter
+                = CustomBlocksLoader.ROOT_DATA_LOADER_REGISTRY.get(type);
+        if (adapter == null) throw new IllegalArgumentException("Cannot" +
+                "find adapter: " + type);
+        if (!adapter.verify(root)) {
+            throw new IllegalArgumentException("Failed while verifying extension: " + id);
+        }
+        return adapter;
+    }
 
     public @NotNull List<CustomBlocksExtension> getExtensions() {
         if (extensions == null) throw new UnsupportedOperationException("Access getExtensions() too early!");
@@ -108,7 +121,7 @@ public class BaseDataLoader {
                     continue;
                 }
                 JsonObject registry0 = je.getAsJsonObject();
-                adapters.add(ImmutablePair.of(registry0, CustomRegistryHelper.fromJson(registry0, id)));
+                adapters.add(ImmutablePair.of(registry0, fromJson(registry0, id)));
             }
             extensions.add(new CustomBlocksExtension(
                     schemaVersion, id,

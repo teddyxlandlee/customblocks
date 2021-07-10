@@ -61,7 +61,9 @@ public class CustomBlocksExtension {
             }
         }
 
-
+        for (ImmutablePair<JsonObject, JsonDataAdapter> registryFuture : registryFutures) {
+            registryFuture.getRight().register(registryFuture.getLeft());
+        }
     }
 
     public int getSchemaVersion() {
