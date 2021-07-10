@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "customblocks",
+  "version": "${version}",
+
+  "name": "Custom Blocks Loader",
+  "description": "Create your own building blocks without any Java code!",
+  "authors": [
+    "teddyxlandlee",
+    "Dennis Lin"
+  ],
+
+  "license": "CC-BY-NC-SA 4.0",
+  "icon": "assets/customblocks/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+
+  },
+  "mixins": [
+    "customblocks.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.9.0"
+  },
+  "suggests": {
+    "sweet_potato": ">=1.2.0",
+    "shurlin": "*"
+  }
+}
